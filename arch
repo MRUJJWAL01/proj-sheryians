@@ -1,0 +1,30 @@
+user={
+    email:String,
+    username:String,
+    fullname:{
+        firstName:String,
+        lastName:String,
+    }
+    password:String,
+    role:"user"||"seller"
+}
+
+product={
+    title:String,
+    description:String,
+    images:[string],
+    price{
+        amount:number,
+        currency:String
+    },
+    sellet:sellerId
+}
+
+payment ={
+    user:userId,
+    product:productId,
+    price:{
+        amount:number,
+        currency:String
+    }
+}
