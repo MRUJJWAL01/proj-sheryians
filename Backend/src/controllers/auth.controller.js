@@ -7,7 +7,7 @@ const registerUser = async (req, res) => {
     const {
       username,
       email,
-      fullName: { f, lastname },
+      fullName: { firstName, lastName },
       password,
     } = req.body;
     const isUserAlreadyExist = await userModel.findOne({
@@ -27,8 +27,8 @@ const registerUser = async (req, res) => {
       username,
       email,
       fullName: {
-        f,
-        lastname,
+        firstName,
+        lastName,
       },
       password: hash,
     });
@@ -53,6 +53,7 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
+  
   try {
     const { email, username, password } = req.body;
     const user = await userModel.findOne({
@@ -69,7 +70,6 @@ const loginUser = async (req, res) => {
         message: "Invalid credentials",
       });
     }
-    
     const token = jwt.sign({ id: user._id }, process.env.SECRETKEY);
     res.cookie("token", token);
     res.status(200).json({
@@ -77,16 +77,106 @@ const loginUser = async (req, res) => {
       user: {
         id: user._id,
         username: user.username,
-        email:user.email,
-        fullName:user.fullName
+        email: user.email,
+        fullName: user.fullName,
       },
     });
   } catch (error) {
     console.log(error.message);
   }
 };
+const registerSeller = async (req, res) => {
+  
+  try {
+    const {username, email, fullName:{firstName, lastName},password} = req.body;
+    
+    const isUserAlreadyExist = await userModel.findOne({
+      $or: [{username},{email}],
+    })
+    if(isUserAlreadyExist){
+      return res.status(422).json({
+        msg: isUserAlreadyExist.username === username ? "username already exist": "emain already exists",
+      })
+    }
+    const hash = await bcrypt.hash(password,10);
+    const seller = await userModel.create({
+      username,
+      email,
+      fullName:{
+        firstName,
+        lastName,
+      },
+      password:hash,
+      role:"seller",
+      
+    })
+    const token = jwt.sign({id:seller._id},process.env.SECRETKEY);
+    res.cookie("token",token);
+    res.status(201).json({
+      msg:"seller Created successfully",
+      seller:{
+        id:seller._id,
+        username:seller.username,
+        email:seller.email,
+        fullName:seller.fullName,
+
+
+
+      }
+    })
+  } catch (error) {
+    res.status(401).json({
+      msg: error.message,
+      error:error
+
+    })
+    console.log(error);
+  }
+}
+
+const sellerLogin = async(req,res)=>{
+  const {username,email,password} = req.body
+  try {
+    const seller = await userModel.findOne({
+      $or: [{username},{email}],
+    })
+    if(!seller){
+      return res.status(401).json({
+        msg:"invalid creadintial"
+      })
+    }
+    const isPasswordValid = bcrypt.compare(seller.password,password);
+    if(!isPasswordValid){
+      return res.status(401).json({
+        msg:"invalid creadintial"
+      })
+    }
+    const token = jwt.sign({id:seller._id},process.env.SECRETKEY);
+    res.cookie("token",token);
+    res.status(201).json({
+      msg:"seller logged in successfully",
+      seller:{
+        id:seller._id,
+        email:seller.email,
+        username:seller.username,
+        fullName:seller.fullName,
+        token:token
+
+
+      }
+    })
+    
+  } catch (error) {
+    
+  }
+}
+
+
 
 module.exports = {
   registerUser,
-  loginUser
+  loginUser,
+  registerSeller,
+  sellerLogin
+  
 };
