@@ -10,7 +10,6 @@ router.post("/",authMiddleware.authSeller,upload.array("images",5),productContro
 
 router.get("/seller",authMiddleware.authSeller,productController.getSellerProducts)
 
-/api/product
 router.get("/",productController.getAllProducts);
 
 router.get("/product-details/:id",productController.getProductDetails)
