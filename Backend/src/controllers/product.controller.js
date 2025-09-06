@@ -4,7 +4,8 @@ const storegeService = require("../services/storage.services")
 const createProduct = async(req,res)=>{
     const {title ,description,price,stock} = req.body;
     try {
-        const files = await (req.files.map(async file =>{await storegeService.uploadImage(file.buffer) }))
+        const files = await Promise.all(req.files.map(async file => await storegeService.uploadFile(file.buffer) ))
+        
         const  seller = req.seller;
 
         const realPrice = JSON.parse(price);

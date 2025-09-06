@@ -11,12 +11,13 @@ const imagekit = new ImageKit({
   urlEndpoint : process.env.IMAGEKIT_URL_ENDPOINT,
 });
 
-const uploadImage = async (fileBuffer) => {
+const uploadFile = async (fileBuffer) => {
   const result = await imagekit.upload({
     file: fileBuffer,
     fileName: uuidv4(),
     folder: "mern14-products",
   });
+  return result;
 };
 
-module.exports = { uploadImage };
+module.exports = { uploadFile };

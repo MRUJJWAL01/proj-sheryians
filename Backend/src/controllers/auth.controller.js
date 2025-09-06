@@ -8,6 +8,7 @@ const registerUser = async (req, res) => {
       username,
       email,
       fullName: { firstName, lastName },
+      role,
       password,
     } = req.body;
     const isUserAlreadyExist = await userModel.findOne({
@@ -30,6 +31,7 @@ const registerUser = async (req, res) => {
         firstName,
         lastName,
       },
+      role,
       password: hash,
     });
     const token = jwt.sign({ id: user._id }, process.env.SECRETKEY);
@@ -79,6 +81,7 @@ const loginUser = async (req, res) => {
         username: user.username,
         email: user.email,
         fullName: user.fullName,
+        role: user.role
       },
     });
   } catch (error) {
@@ -160,13 +163,21 @@ const sellerLogin = async(req,res)=>{
         email:seller.email,
         username:seller.username,
         fullName:seller.fullName,
-        token:token
+        token:token,
+        role:seller.role
 
 
       }
     })
     
   } catch (error) {
+     res.status(401).json({
+      msg: error.message,
+      error:error
+
+    })
+    console.log(error);
+    
     
   }
 }
