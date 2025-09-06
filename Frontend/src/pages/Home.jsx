@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../components/Productcard";
-import axios, { all } from "axios";
+import { axiosInstance } from "../config/axiosInstance";
 
 const Home = () => {
   const [allProduct, setAllProduct] = useState(null);
 
   const getProduct = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/product");
-      console.log(response);
+      const response = await axiosInstance.get("/product");
 
       if (response) {
         setAllProduct(response.data.products);
@@ -18,11 +17,9 @@ const Home = () => {
     }
   };
 
-  console.log(allProduct);
-
   useEffect(() => {
     getProduct();
-  }, []);
+  },[]);
 
   return (
     <div className="max-w-7xl mx-auto p-4">

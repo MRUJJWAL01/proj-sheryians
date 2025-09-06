@@ -30,31 +30,39 @@ const authSeller = async(req,res,next)=>{
     }
 
 }
+const authUser = async (req, res, next) => {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(401).json({
+      msg: "Unauthorized, token not found",
+    });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.SECRETKEY);
+
+    const user = await userModel.findById(decoded.id);
+
+    req.user = user;
+
+    next();
+  } catch (error) {
+    res.status(401).json({
+      msg: "Unauthorized",
+      error: error,
+    });
+    console.log(error);
+    
+  }
+};
 
 module.exports = {
     authSeller,
+    authUser
+    
 }
 
 
 
 
-
-//         req.seller = user
-
-//         next()
-//     } catch (err) {
-
-//         console.log(err)
-//         res.status(401).json({
-//             message: "Unauthorized"
-//         })
-
-//     }
-
-
-// }
-
-
-// module.exports = {
-//     authSeller
-// }

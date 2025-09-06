@@ -13,14 +13,14 @@ export const registerUser = async (data) => {
   }
 };
 
-export const loginUser = async () => {
+export const loginUser = async (data) => {
   try {
     let loggedinUser = await axiosInstance.post("/auth/user/login", data);
     if (loggedinUser) {
-      console.log("user login successfull");
       return loggedinUser.data.user;
     }
   } catch (error) {
     console.log("error in login", error);
   }
 };
+

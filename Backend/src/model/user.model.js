@@ -21,14 +21,9 @@ const userSchema = new mongoose.Schema({
       type: String,
     },
   },
-  // mobileNum: {
-  //   type: String,
-  //   unique: true,
-  //   required: true,
-  //   match: [/^\d{10}$/, "Mobile number must be exactly 10 digits"],
-  // },
+  
   password: {
-    type:String,
+    type: String,
     required: true,
   },
   role: {

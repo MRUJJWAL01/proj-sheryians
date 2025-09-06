@@ -4,13 +4,18 @@ import App from "./App.jsx";
 import { Provider } from "react-redux";
 import { store } from "./store/store.jsx";
 import { BrowserRouter } from "react-router";
+import { ToastContainer } from "react-toastify";
+import ErrorHendler from "./components/ErrorHendler.jsx";
 
 createRoot(document.getElementById("root")).render(
   <>
-    <BrowserRouter>
-      <Provider store={store}>
+  
+    <Provider store={store}>
+      <BrowserRouter>
         <App />
-      </Provider>
-    </BrowserRouter>
+        <ToastContainer />
+        <ErrorHendler />
+      </BrowserRouter>
+    </Provider>
   </>
 );
