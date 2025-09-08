@@ -1,12 +1,11 @@
 import { useSelector } from "react-redux";
 import Searchbar from "./Searchbar";
 import { useNavigate } from "react-router";
-import { logOut } from "../apis/AuthApis";
 
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const {isLoggedIn} = useSelector((state)=>state.auth);
+  const {isLoggedIn ,user} = useSelector((state)=>state.auth);
 
   return (
     <nav className="bg-white shadow-xl sticky top-0 z-30">
@@ -27,9 +26,7 @@ const Navbar = () => {
             <a href="#" onClick={()=>{navigate("/cart")}} className="text-gray-700 hover:text-blue-600 px-2">
               Cart
             </a>
-           {isLoggedIn? <button onClick={""} className="ml-4 cursor-pointer px-4 py-2 rounded border border-blue-600 text-blue-600 hover:bg-blue-50 transition">
-              Log out
-            </button> :
+           {user && isLoggedIn? "" :
             <button onClick={()=>navigate("/auth")} className="ml-4 cursor-pointer px-4 py-2 rounded border border-blue-600 text-blue-600 hover:bg-blue-50 transition">
               Login
             </button>}

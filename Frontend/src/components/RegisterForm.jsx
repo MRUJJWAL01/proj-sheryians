@@ -1,7 +1,9 @@
 import { useForm } from "react-hook-form";
 import { registerUser } from "../apis/AuthApis";
+import { useNavigate } from "react-router";
 
 const RegisterForm = ({ setFlag }) => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -21,8 +23,7 @@ const RegisterForm = ({ setFlag }) => {
       };
       
       let user = await registerUser(newUserObj);
-      console.log(user);
-      
+      navigate("/");
     } catch (error) {
       console.log(error);
     }

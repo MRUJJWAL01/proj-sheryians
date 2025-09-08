@@ -5,12 +5,12 @@ import LoginForm from "../components/LoginForm";
 export const AuthPage = () => {
   const [flag, setFlag] = useState(false);
   return (
-    <div  className="w-full h-screen flex flex-col justify-center items-center">
+    <div  className="w-full mt-10  flex flex-col justify-center items-center ">
       {flag ? (
-          <LoginForm setFlag={setFlag} />
-        ) : (
-            <RegisterForm setFlag={setFlag} />
-        )}
+        <RegisterForm setFlag={setFlag} />
+      ) : (
+      <LoginForm setFlag={setFlag} />
+      )}
       ;
     </div>
   );
