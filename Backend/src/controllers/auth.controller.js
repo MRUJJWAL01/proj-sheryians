@@ -34,7 +34,11 @@ const registerUser = async (req, res) => {
     });
     const token = jwt.sign({ id: user._id }, process.env.SECRETKEY);
 
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true, // must be true in production (https)
+      sameSite: "none", // important for frontend-backend on different domains
+    });
     res.status(201).json({
       message: "user registered successfully",
       user: {
