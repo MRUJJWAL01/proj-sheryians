@@ -9,7 +9,7 @@ const cors = require("cors");
 const app = express();
 app.use(
   cors({
-    origin: "https://proj-sheryians.vercel.app/",
+    origin: "https://proj-sheryians.vercel.app",
      // your React app URL
     credentials: true, // allow cookies/headers
   })
