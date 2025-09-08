@@ -71,10 +71,14 @@ const loginUser = async (req, res) => {
         message: "Invalid credentials",
       });
     }
-    const token = jwt.sign({ id: user._id }, process.env.SECRETKEY,{
-      expiresIn:"1h",
+    const token = jwt.sign({ id: user._id }, process.env.SECRETKEY, {
+      expiresIn: "1h",
     });
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true, // must be true in production (https)
+      sameSite: "none", // important for cross-site cookies
+    });
     res.status(200).json({
       message: "User logged in successfully",
       user: {

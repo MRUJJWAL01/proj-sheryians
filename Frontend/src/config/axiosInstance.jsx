@@ -4,7 +4,7 @@ import { setError } from "../features/error/errorSlice";
 
 
 export const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: "https://proj-sheryians.onrender.com/api",
   withCredentials: true,
 });
 
